@@ -9,5 +9,11 @@ package com.mycompany.proyecto;
  * @author victo
  */
 public class Nodo {
+    Nodo siguiente;
+    int usuario;
     
+    public Nodo (int dato){
+        this.siguiente = null;
+        this.usuario = dato;
+    }
 }
