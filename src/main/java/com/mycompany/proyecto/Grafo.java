@@ -44,4 +44,43 @@ public class Grafo {
         }
     }
     
+    public Vertice buscarUsuario(String nombre){
+        for (Vertice usuario : this.usuarios) {
+            if (usuario != null && usuario.usuario.equals(nombre)) {
+                return usuario;
+            }
+        }
+        return null;
+    }
+    
+    public void agregarArista( String nombre_origen, String nombre_destino){
+        Vertice origen = this.buscarUsuario(nombre_origen);
+        Vertice destino = this.buscarUsuario(nombre_destino);
+        
+        if(origen != null && destino != null){
+            origen.adyacentes.insertar(nombre_destino);
+        }
+    }
+    
+    public void eliminar(String nombre){
+        //ELIMINANOS EL  VERTICE DEL GRAFO
+        for (int i = 0; i < this.usuarios.length; i++) {
+            if (this.usuarios[i] != null && this.usuarios[i].usuario.equals(nombre)) {
+               this.usuarios[i] = null ;
+               this.num_vertices --;
+               break;
+            }
+        }
+        
+        //ELIMINAMOS LAS FLECHAS QUE GUADRABAN AL VERTICE
+        for (Vertice usuario : this.usuarios) {
+            if (usuario != null) {
+                usuario.adyacentes.eliminar(nombre);
+            }
+        }
+    }
+    
+    
+    
+    
 }
