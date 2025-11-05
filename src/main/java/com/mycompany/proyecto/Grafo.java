@@ -8,6 +8,12 @@ package com.mycompany.proyecto;
  *
  * @author victo
  */
+
+/*
+Esta clase es la que guarda al grafo.
+Tiene un arreglo con todos los vertices que existen en el grafo
+
+*/
 public class Grafo {
     int num_vertices;
     Vertice[] usuarios;
@@ -35,6 +41,7 @@ public class Grafo {
             if(this.usuarios[i] == null){
                 this.usuarios[i] =  nuevo;
                 insertado = true;
+                this.num_vertices ++;
                 break;
             }
         }
@@ -81,6 +88,14 @@ public class Grafo {
     }
     
     
-    
+    public String verGrafo(){
+        String resultado = "";
+        for (Vertice usuario : this.usuarios) {
+            if (usuario != null) {
+               resultado += usuario.usuario + "  Seguidos: " + usuario.adyacentes.mostrar() + "\n";
+            }
+        }
+        return resultado;
+    }
     
 }
