@@ -76,7 +76,12 @@ public class Ventana extends javax.swing.JFrame {
             }
         });
     }
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
+    private void botonCargarActionPerformed(java.awt.event.ActionEvent evt) {                                             
+        miGrafo = GestorArchivos.cargarGrafoDesdeArchivo();
+    }                                            
+    
+    private void botonActualizarActionPerformed(java.awt.event.ActionEvent evt) {                                                 
+        GestorArchivos.guardarGrafoEnArchivo(miGrafo);
+    } 
+    
 }
