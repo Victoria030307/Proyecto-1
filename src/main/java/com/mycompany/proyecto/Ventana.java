@@ -3,13 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.proyecto;
-
 /**
  *
  * @author victo
  */
 public class Ventana extends javax.swing.JFrame {
 
+    Grafo miGrafo;
     /**
      * Creates new form Ventana
      */
