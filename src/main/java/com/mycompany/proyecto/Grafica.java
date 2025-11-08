@@ -110,7 +110,7 @@ public class Grafica extends javax.swing.JFrame {
         grafoDePrueba.agregarArista("4", "3");
         grafoDePrueba.agregarArista("5", "1");
         grafoDePrueba.agregarArista("5", "6");
-       
+        
    
         
         String texto = grafoDePrueba.getFuertementeconectados();
