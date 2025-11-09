@@ -31,22 +31,23 @@ public class Lista {
         this.size = 0;
     }
 
-    public void insertar(String dato) {
-        Nodo nuevo = new Nodo(dato);
-        if (this.primero == null) {
-            this.primero = nuevo;
-        
-
-        } else {
-            Nodo aux = this.primero;
-
-            while (aux.siguiente != null) {
-                aux = aux.siguiente;
-            }
-            aux.siguiente = nuevo;
-        }
-        size++;
+public boolean insertar(String dato) {
+    if (this.buscar(dato) != null) {
+        return false; 
     }
+    Nodo nuevo = new Nodo(dato);
+    if (this.primero == null) {
+        this.primero = nuevo;
+    } else {
+        Nodo aux = this.primero;
+        while (aux.siguiente != null) {
+            aux = aux.siguiente;
+        }
+        aux.siguiente = nuevo;
+    }
+    size++;
+    return true; 
+}
     
     public void eliminar(String dato) {
         Nodo aux = this.primero;

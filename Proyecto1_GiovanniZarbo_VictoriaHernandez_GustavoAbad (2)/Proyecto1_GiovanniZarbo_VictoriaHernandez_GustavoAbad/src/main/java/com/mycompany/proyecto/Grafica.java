@@ -23,18 +23,9 @@ import java.util.List;
  * @author giova
  */
 public class Grafica extends javax.swing.JFrame {
-    
+   
     private Grafo miGrafo;
 
-    public Grafica(Grafo grafo) {
-        initComponents(); 
-        this.miGrafo = grafo; 
-        this.setTitle("Analizador de Red Social (Grafos)");
-        this.setPreferredSize(new Dimension(800, 600)); //
-        this.pack(); 
-        this.setLocationRelativeTo(null); 
-        dibujarGrafo();       
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -48,25 +39,12 @@ public class Grafica extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout panelParaGrafoLayout = new javax.swing.GroupLayout(panelParaGrafo);
-        panelParaGrafo.setLayout(panelParaGrafoLayout);
-        panelParaGrafoLayout.setHorizontalGroup(
-            panelParaGrafoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        panelParaGrafoLayout.setVerticalGroup(
-            panelParaGrafoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
-
+        panelParaGrafo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         getContentPane().add(panelParaGrafo, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
 /**
      * @param args the command line arguments
      */
@@ -93,48 +71,28 @@ public class Grafica extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Grafica.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        Grafo grafoDePrueba = new Grafo(6);
-        grafoDePrueba.insertar("1");
-        grafoDePrueba.insertar("2");
-        grafoDePrueba.insertar("3");
-        grafoDePrueba.insertar("4");
-        grafoDePrueba.insertar("5");
-        grafoDePrueba.insertar("6");
-      
-        grafoDePrueba.agregarArista("3", "1");
-        grafoDePrueba.agregarArista("2", "3");
-        grafoDePrueba.agregarArista("5", "4");
-        grafoDePrueba.agregarArista("4", "1");
-        grafoDePrueba.agregarArista("2", "5");
-        grafoDePrueba.agregarArista("5", "2");
-        grafoDePrueba.agregarArista("4", "3");
-        grafoDePrueba.agregarArista("5", "1");
-        grafoDePrueba.agregarArista("5", "6");
-        
-   
-        
-        String texto = grafoDePrueba.getFuertementeconectados();
-        System.out.println(texto);
-        
-        
-        
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Grafica(grafoDePrueba).setVisible(true);
-            }
-        });
     }   
 
+    //constructor de la clase crea una grafica con un grafo, es decir, recibe un grafo construido como entrada
+    public Grafica(Grafo grafo) {
+        initComponents(); 
+        this.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
+        this.miGrafo = grafo; 
+        this.setTitle("Analizador de Red Social (Grafos)");
+        this.setPreferredSize(new Dimension(800, 600)); //
+        this.pack(); 
+        this.setLocationRelativeTo(null); 
+        dibujarGrafo();       
+    }
 
-
+    //este metodo dibuja o crea la representacion grafica del grafo utiliza los getters del grafo que recibe el constructor para determinar los vertices y mediante los componentes fuertemente conectados crea el diseño
     private void dibujarGrafo() {
         if (miGrafo == null) {
-            System.err.println("El grafo es nulo, no se puede dibujar.");
             return;
         }
         System.setProperty("org.graphstream.ui", "swing");
         Graph graph = new SingleGraph("RedSocial");
-        String stylesheet ="node{"+"size:45px;"+"text-size:21px;"+"text-color:white;"+"text-alignment:center;"+"}";
+        String stylesheet = "graph {"+"fill-color:#222222;"+"}"+"node{"+"text-size: 25px;"+"text-color:white;"+"}";
         graph.setAttribute("ui.stylesheet", stylesheet);
         graph.setAttribute("ui.stylesheet", stylesheet);
         
