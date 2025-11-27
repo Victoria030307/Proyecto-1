@@ -87,44 +87,79 @@ public class Grafica extends javax.swing.JFrame {
 
     //este metodo dibuja o crea la representacion grafica del grafo utiliza los getters del grafo que recibe el constructor para determinar los vertices y mediante los componentes fuertemente conectados crea el diseño
     private void dibujarGrafo() {
-        if (miGrafo == null) {
-            return;
-        }
-        System.setProperty("org.graphstream.ui", "swing");
-        Graph graph = new SingleGraph("RedSocial");
-        String stylesheet = "graph {"+"fill-color:#222222;"+"}"+"node{"+"text-size: 25px;"+"text-color:white;"+"}";
-        graph.setAttribute("ui.stylesheet", stylesheet);
-        graph.setAttribute("ui.stylesheet", stylesheet);
-        
-        for (Vertice v : miGrafo.getVertices()) {
-            graph.addNode(v.usuario).setAttribute("ui.label", v.usuario);
-        }
-        int edgeId = 0; 
-        for (Vertice v : miGrafo.getVertices()) {
-            for (String adyacente : v.adyacentes.getNombres()) {
-                if (graph.getNode(adyacente) != null) {
-                    graph.addEdge(String.valueOf(edgeId++), v.usuario, adyacente, true);
-                }
-            }
-        }
-        List<List<Vertice>> componentes = miGrafo.encontrarComponentesFuertementeConectados();
-        String[] colores = {"red", "blue", "green", "gold", "purple", "orange", "cyan", "pink"};
-        int colorIndex = 0;
-        for (List<Vertice> componente : componentes) {
-            String color = colores[colorIndex % colores.length];
-            colorIndex++;
-            for (Vertice v : componente) {
-            graph.getNode(v.usuario).setAttribute("ui.style", "fill-color: " + color + ";");
-            }
-        }
-        Viewer viewer = new SwingViewer(graph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
-        viewer.enableAutoLayout(); 
-        ViewPanel viewPanel = (ViewPanel) viewer.addDefaultView(false); 
-        panelParaGrafo.setLayout(new BorderLayout());
-        panelParaGrafo.add(viewPanel, BorderLayout.CENTER);
-        panelParaGrafo.revalidate();
-        panelParaGrafo.repaint();
+    // Es necesario asumir que 'miGrafo', 'panelParaGrafo' existen
+    // y que las librerías GraphStream (Graph, SingleGraph, Viewer, ViewPanel, SwingViewer)
+    // están disponibles en el entorno para el dibujo, ya que el requerimiento 
+    // fue eliminar las colecciones de Java, no las librerías de terceros.
+    
+    if (miGrafo == null) {
+        return;
     }
+    
+    // Configuración inicial de GraphStream
+    System.setProperty("org.graphstream.ui", "swing");
+    Graph graph = new SingleGraph("RedSocial");
+    String stylesheet = "graph {"+"fill-color:#222222;"+"}"+"node{"+"text-size: 25px;"+"text-color:white;"+"}";
+    graph.setAttribute("ui.stylesheet", stylesheet);
+    
+    // 1. Agregar Nodos
+    // miGrafo.getVertices() ahora devuelve Vertice[]
+    Vertice[] vertices = miGrafo.getVertices();
+    for (Vertice v : vertices) {
+        graph.addNode(v.usuario).setAttribute("ui.label", v.usuario);
+    }
+    
+    // 2. Agregar Aristas
+    int edgeId = 0;
+    for (Vertice v : vertices) {
+        // v.adyacentes.getNombres() ahora devuelve String[]
+        String[] nombresAdyacentes = v.adyacentes.getNombres();
+        for (String adyacente : nombresAdyacentes) {
+            if (graph.getNode(adyacente) != null) {
+                // El 'true' indica que la arista es dirigida (dirigida)
+                graph.addEdge(String.valueOf(edgeId++), v.usuario, adyacente, true);
+            }
+        }
+    }
+    
+    // 3. Colorear Componentes Fuertemente Conectados (CFCs)
+    
+    // Cambiado: Vertice[][] en lugar de List<List<Vertice>>
+    Vertice[][] componentes = miGrafo.encontrarComponentesFuertementeConectados();
+    
+    // Se usan arreglos para evitar List
+    String[] colores = {"red", "blue", "green", "gold", "purple", "orange", "cyan", "pink"};
+    int colorIndex = 0;
+    
+    // Iteración sobre el arreglo de CFCs (Vertice[][])
+    for (Vertice[] componente : componentes) {
+        String color = colores[colorIndex % colores.length];
+        colorIndex++;
+        
+        // Iteración sobre los vértices dentro del CFC (Vertice[])
+        for (Vertice v : componente) {
+            if (graph.getNode(v.usuario) != null) { // Verificación de seguridad
+                graph.getNode(v.usuario).setAttribute("ui.style", "fill-color: " + color + ";");
+            }
+        }
+    }
+    
+    // 4. Mostrar Grafo
+    
+    // (Asumiendo que las clases SwingViewer, Viewer, ViewPanel, BorderLayout son accesibles)
+    Viewer viewer = new SwingViewer(graph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
+    viewer.enableAutoLayout();
+    ViewPanel viewPanel = (ViewPanel) viewer.addDefaultView(false);
+    
+    // Integración en el panel del UI
+    // Asegúrate de que panelParaGrafo sea un contenedor de Swing (por ejemplo, un JPanel)
+    // También asegúrate de que el paquete java.awt.BorderLayout esté accesible si la clase
+    // principal está en un paquete sin importaciones explícitas.
+    panelParaGrafo.setLayout(new BorderLayout()); 
+    panelParaGrafo.add(viewPanel, BorderLayout.CENTER);
+    panelParaGrafo.revalidate();
+    panelParaGrafo.repaint();
+}
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel panelParaGrafo;
