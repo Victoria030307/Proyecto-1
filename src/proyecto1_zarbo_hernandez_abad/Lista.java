@@ -4,10 +4,6 @@
  */
 package proyecto1_zarbo_hernandez_abad;
 
-
-import java.util.ArrayList; 
-import java.util.List;    
-
 /**
  *
  * @author victo
@@ -76,14 +72,15 @@ public boolean insertar(String dato) {
     }
     
 
-public List<String> getNombres() {
-    List<String> nombres = new ArrayList<>();
+public String getNombres() {
+    String nombres = "";
     Nodo aux = this.primero;
     
-    while (aux != null) {
-        nombres.add(aux.usuario); 
+    while (aux.siguiente != null) {
+        nombres+= aux.usuario + ","; 
         aux = aux.siguiente;
     }
+    nombres+= aux.usuario;
     
     return nombres; 
 }
