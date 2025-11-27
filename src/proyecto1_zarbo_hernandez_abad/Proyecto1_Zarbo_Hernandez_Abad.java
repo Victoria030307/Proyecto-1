@@ -15,6 +15,8 @@ public class Proyecto1_Zarbo_Hernandez_Abad {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        Ventana v = new Ventana();
+        v.setVisible(true);
     }
     
 }
