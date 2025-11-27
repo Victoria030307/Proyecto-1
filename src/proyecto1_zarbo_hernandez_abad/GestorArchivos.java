@@ -79,7 +79,7 @@ public class GestorArchivos {
             }
             pw.println("relaciones");
             for (Vertice v : grafo.getVertices()) {
-                String[] usuarios = v.adyacentes.getNombres().split(",");
+                String[] usuarios = v.adyacentes.getNombres();
                 for (String seguidor : usuarios) {
                     pw.println(v.usuario + ", " + seguidor);
                 }
